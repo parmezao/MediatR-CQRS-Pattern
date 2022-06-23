@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,10 +17,10 @@ namespace MediatR_CQRS.Repository
 
         public Dictionary<int, Produto> GetProdutos() 
         {
-            produtos.Add(1, new Produto { Id = 1, Nome = "Caneta", Preco = 3.45m });
-            produtos.Add(2, new Produto { Id = 2, Nome = "Caderno", Preco = 34.75m });
-            produtos.Add(3, new Produto { Id = 3, Nome = "Borracha", Preco = 1.42m });
-            produtos.Add(4, new Produto { Id = 4, Nome = "Regua", Preco = 7.56m });            
+            produtos.Add(1, new Produto { Id = Guid.NewGuid(), Nome = "Caneta", Preco = 3.45m });
+            produtos.Add(2, new Produto { Id = Guid.NewGuid(), Nome = "Caderno", Preco = 34.75m });
+            produtos.Add(3, new Produto { Id = Guid.NewGuid(), Nome = "Borracha", Preco = 1.42m });
+            produtos.Add(4, new Produto { Id = Guid.NewGuid(), Nome = "Regua", Preco = 7.56m });            
 
             return produtos;
         }     
@@ -36,15 +37,15 @@ namespace MediatR_CQRS.Repository
 
         public async Task Add(Produto produto)
         {
-            await Task.Run(() => produtos.Add(produto.Id, produto));
+            await Task.Run(() => produtos.Add(produto.Id.GetHashCode(), produto));
         }
         
         public async Task Edit(Produto produto)
         {
             await Task.Run(() =>
             {
-                produtos.Remove(produto.Id);
-                produtos.Add(produto.Id, produto);
+                produtos.Remove(produto.Id.GetHashCode());
+                produtos.Add(produto.Id.GetHashCode(), produto);
             });
         }
         

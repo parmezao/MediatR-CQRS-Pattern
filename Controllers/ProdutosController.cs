@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MediatR;
 using MediatR_CQRS.Domain.Command;
@@ -36,7 +37,8 @@ namespace MediatR_CQRS.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ProdutoCreateCommand command)
-        {
+        {       
+            command.Id = Guid.NewGuid();
             var response = await _mediator.Send(command);
             return Ok(response);
         }
@@ -46,14 +48,6 @@ namespace MediatR_CQRS.Controllers
         {
             var response = await _mediator.Send(command);
             return Ok(response);
-        }
-        
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var obj = new ProdutoDeleteCommand { Id = id };
-            var result = await _mediator.Send(obj);
-            return Ok(result);
-        }        
+        }   
     }
 }

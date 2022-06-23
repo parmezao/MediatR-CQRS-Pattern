@@ -25,9 +25,10 @@ public class ProdutoUpdateCommandHandler : IRequestHandler<ProdutoUpdateCommand,
             try
             {
                 await _repository.Edit(produto);
+                
                 await _mediator.Publish(new ProdutoUpdateNotification
                 { 
-                    Id = produto.Id, 
+                    Id = produto.Id.GetHashCode(), 
                     Nome = produto.Nome, 
                     Preco = produto.Preco 
                 });
@@ -38,7 +39,7 @@ public class ProdutoUpdateCommandHandler : IRequestHandler<ProdutoUpdateCommand,
             {
                 await _mediator.Publish(new ProdutoUpdateNotification 
                 { 
-                    Id = produto.Id, 
+                    Id = produto.Id.GetHashCode(), 
                     Nome = produto.Nome, 
                     Preco = produto.Preco 
                 });

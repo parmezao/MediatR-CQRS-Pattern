@@ -24,8 +24,8 @@ namespace MediatR_CQRS.Domain.Handler
         {
             try
             {
-                await _repository.Delete(request.Id);
-                await _mediator.Publish(new ProdutoDeleteNotification{ Id = request.Id, IsConcluido = true });
+                await _repository.Delete(request.GetHashCode());
+                await _mediator.Publish(new ProdutoDeleteNotification{ Id = request.Id.GetHashCode(), IsConcluido = true });
 
                 return await Task.FromResult("Produto excluido com sucesso");
             }
@@ -33,7 +33,7 @@ namespace MediatR_CQRS.Domain.Handler
             {
                 await _mediator.Publish(new ProdutoDeleteNotification
                 {
-                    Id = request.Id,
+                    Id = request.Id.GetHashCode(),
                     IsConcluido = false
                 });
 
