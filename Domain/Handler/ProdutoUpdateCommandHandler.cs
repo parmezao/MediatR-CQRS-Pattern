@@ -9,7 +9,7 @@ using MediatR_CQRS.Repository;
 
 namespace MediatR_CQRS.Domain.Handler
 {
-public class ProdutoUpdateCommandHandler : IRequestHandler<ProdutoUpdateCommand, string>
+    public class ProdutoUpdateCommandHandler : IRequestHandler<ProdutoUpdateCommand, string>
     {
         private readonly IMediator _mediator;
         private readonly IRepository<Produto> _repository;
@@ -25,7 +25,7 @@ public class ProdutoUpdateCommandHandler : IRequestHandler<ProdutoUpdateCommand,
             try
             {
                 await _repository.Edit(produto);
-                
+
                 await _mediator.Publish(new ProdutoUpdateNotification
                 { 
                     Id = produto.Id.GetHashCode(), 
